@@ -134,7 +134,11 @@
         list.appendChild( itemlist );
         $('.vt-item-'+index).data('id', item.id);
 
-        const img = "{{ asset('') }}" + '/' + item.foto ;
+        
+        var img = "{{ asset('') }}" + '/' + item.foto ;
+        if(item.foto.startWith('http')){
+          img = item.foto;
+        }
         const panorama = new PANOLENS.ImagePanorama(img);
         panorama.addEventListener( 'progress', onProgress );
         panorama.addEventListener( 'enter', onEnter );
