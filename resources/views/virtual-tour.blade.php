@@ -134,10 +134,12 @@
         list.appendChild( itemlist );
         $('.vt-item-'+index).data('id', item.id);
 
-        
-        var img = "{{ asset('') }}" + '/' + item.foto ;
-        if(item.foto.startWith('http')){
-          img = item.foto;
+        var foto = item.foto;
+        var img = "{{ asset('') }}" + '/' + foto;
+        if(foto){
+          if(foto.startsWith('http')){
+            img = foto;
+          }
         }
         const panorama = new PANOLENS.ImagePanorama(img);
         panorama.addEventListener( 'progress', onProgress );
@@ -148,7 +150,13 @@
         }
         item.detail.forEach((ditem, dindex) => {
           // console.log('ditem_' + dindex, 'vt_'+ditem.vid, typeof pano['vt_'+ditem.vid]);
-          const img2 = "{{ asset('') }}" + '/' + ditem.foto;
+          var foto2 = ditem.foto;
+          var img2 = "{{ asset('') }}" + '/' + foto2;
+          if(foto2){
+            if(foto.startsWith('http')){
+              img2 = foto2;
+            }
+          }
           const panorama2 = new PANOLENS.ImagePanorama(img2);
           if(typeof pano['vt_'+ditem.vid] == 'undefined'){
             pano['vt_'+ditem.vid] = panorama2;
