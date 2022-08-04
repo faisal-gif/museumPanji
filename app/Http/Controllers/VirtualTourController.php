@@ -194,7 +194,7 @@ class VirtualTourController extends Controller
                         $image = $request->file('ifoto')[$ikey];
                         $result = CloudinaryStorage::upload($image->getRealPath(), $image->getClientOriginalName());
 
-                        $virtualinfo->foto = $image;
+                        $virtualinfo->foto = $result;
                     }
                     $virtualinfo->virtual_tour_id_from = $vid;
                     $virtualinfo->judul = $request->ijudul[$ikey];
