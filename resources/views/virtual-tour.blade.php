@@ -134,7 +134,7 @@
         list.appendChild( itemlist );
         $('.vt-item-'+index).data('id', item.id);
 
-        const img = "{{ asset('') }}" + '/' + item.foto ;
+        const img = item.foto ;
         const panorama = new PANOLENS.ImagePanorama(img);
         panorama.addEventListener( 'progress', onProgress );
         panorama.addEventListener( 'enter', onEnter );
@@ -144,7 +144,7 @@
         }
         item.detail.forEach((ditem, dindex) => {
           // console.log('ditem_' + dindex, 'vt_'+ditem.vid, typeof pano['vt_'+ditem.vid]);
-          const img2 = "{{ asset('') }}" + '/' + ditem.foto;
+          const img2 = ditem.foto;
           const panorama2 = new PANOLENS.ImagePanorama(img2);
           if(typeof pano['vt_'+ditem.vid] == 'undefined'){
             pano['vt_'+ditem.vid] = panorama2;
