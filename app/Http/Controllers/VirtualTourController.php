@@ -76,15 +76,13 @@ class VirtualTourController extends Controller
         $virtual = new VirtualTour;
 
         if ($request->file('foto')) {
-            $imagePath = $request->file('foto');
-            $extension = $imagePath->getClientOriginalExtension();
-            $imageName = time().'.'.$extension;
-            $path = $request->file('foto')->storeAs('virtuals', $imageName, 'public');
+            $image = $request->file('foto');
+            $result = CloudinaryStorage::upload($image->getRealPath(), $image->getClientOriginalName());
         }
 
         $virtual->judul = $request->judul;
         $virtual->keterangan = $request->keterangan;
-        $virtual->foto = '/storage/'.$path;
+        $virtual->foto = $result;
         $virtual->status = 1;
         $save = $virtual->save();
         $vid = $virtual->id;
@@ -106,12 +104,10 @@ class VirtualTourController extends Controller
                 
                 $virtualinfo = new VirtualTourInfospot;
                 if ($request->file('ifoto')[$ikey]) {
-                    $imagePath = $request->file('ifoto')[$ikey];
-                    $extension = $imagePath->getClientOriginalExtension();
-                    $imageName = time().'.'.$extension;
-                    $path = $request->file('ifoto')[$ikey]->storeAs('virtual-info', $imageName, 'public');
+                    $image = $request->file('ifoto')[$ikey];
+                    $result = CloudinaryStorage::upload($image->getRealPath(), $image->getClientOriginalName());
 
-                    $virtualinfo->foto = '/storage/'.$path;
+                    $virtualinfo->foto = $result;
                 }
                 $virtualinfo->virtual_tour_id_from = $vid;
                 $virtualinfo->judul = $request->ijudul[$ikey];
@@ -161,13 +157,10 @@ class VirtualTourController extends Controller
         $virtual = VirtualTour::find($id);
 
         if ($request->file('foto')) {
-            $imagePath = $request->file('foto');
-            $extension = $imagePath->getClientOriginalExtension();
-            $imageName = time().'.'.$extension;
+            $image = $request->file('foto');
+            $result = CloudinaryStorage::upload($image->getRealPath(), $image->getClientOriginalName());
 
-            $path = $request->file('foto')->storeAs('uploads', $imageName, 'public');
-
-            $virtual->foto = '/storage/'.$path;
+            $virtual->foto = $result;
         }
 
         if($virtual){
@@ -198,12 +191,10 @@ class VirtualTourController extends Controller
                         $virtualinfo = new VirtualTourInfospot;
                     }
                     if (isset($request->file('ifoto')[$ikey])) {
-                        $imagePath = $request->file('ifoto')[$ikey];
-                        $extension = $imagePath->getClientOriginalExtension();
-                        $imageName = time().'.'.$extension;
-                        $path = $request->file('ifoto')[$ikey]->storeAs('virtual-info', $imageName, 'public');
+                        $image = $request->file('ifoto')[$ikey];
+                        $result = CloudinaryStorage::upload($image->getRealPath(), $image->getClientOriginalName());
 
-                        $virtualinfo->foto = '/storage/'.$path;
+                        $virtualinfo->foto = $image;
                     }
                     $virtualinfo->virtual_tour_id_from = $vid;
                     $virtualinfo->judul = $request->ijudul[$ikey];

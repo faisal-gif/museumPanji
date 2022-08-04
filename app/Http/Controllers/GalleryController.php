@@ -50,16 +50,13 @@ class GalleryController extends Controller
         $gallery = new Gallery;
 
         if ($request->file('foto')) {
-            $imagePath = $request->file('foto');
-            $extension = $imagePath->getClientOriginalExtension();
-            $imageName = time().'.'.$extension;
-
-            $path = $request->file('foto')->storeAs('uploads', $imageName, 'public');
+            $image = $request->file('foto');
+            $result = CloudinaryStorage::upload($image->getRealPath(), $image->getClientOriginalName());
         }
 
         $gallery->judul = $request->judul;
         $gallery->keterangan = $request->keterangan;
-        $gallery->foto = '/storage/'.$path;
+        $gallery->foto =  $result;
         $gallery->status = 1;
         $save = $gallery->save();
 
@@ -94,13 +91,10 @@ class GalleryController extends Controller
         $gallery = Gallery::find($id);
 
         if ($request->file('foto')) {
-            $imagePath = $request->file('foto');
-            $extension = $imagePath->getClientOriginalExtension();
-            $imageName = time().'.'.$extension;
+            $image = $request->file('foto');
+            $result = CloudinaryStorage::upload($image->getRealPath(), $image->getClientOriginalName());
 
-            $path = $request->file('foto')->storeAs('uploads', $imageName, 'public');
-
-            $gallery->foto = '/storage/'.$path;
+            $gallery->foto =  $result;
         }
 
         if($gallery){
